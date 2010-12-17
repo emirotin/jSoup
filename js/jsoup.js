@@ -101,7 +101,6 @@ $_soup._makePrivCallback = function($this, func, private_vars) {
     if (private_vars['$_depth'] == 0)
       $this['_'] = private_vars;
     private_vars['$_depth']++;
-    //return  func.apply(null, [$this, private_vars].concat(Array.prototype.slice.call(arguments)));
     var res = func.apply(null, [$this].concat(Array.prototype.slice.call(arguments)));
     private_vars['$_depth']--;
     if (private_vars['$_depth'] == 0)
@@ -154,15 +153,16 @@ var $class = function(map) {
     }  
     
     var public_members = {};
-    var $constructor = function($this) {
+    var $constructor = function() {
+      var $this = arguments[0];
       for (var i = 0; i < ancestors.length; ++i)
-        ancestors[i].$constructor($this);
+        ancestors[i].$constructor.apply(null, Array.prototype.slice.call(arguments));
       var priv = map['$private_vars'] || {};
       var _ = {};
       for (var key in priv)
         _[key] = priv[key];
       _['$_depth'] = 0;
-      $own_constructor($this);
+      $own_constructor.apply(null, arguments);
       
       // populate priviledged and public methods
       for (var name in map) {
@@ -190,14 +190,14 @@ var $class = function(map) {
       }
     } 
     // construct class
-    var cl = function() {
-     $constructor(this);
+    var cl = function() {     
+     $constructor.apply(null, [this].concat(Array.prototype.slice.call(arguments)));
     }
     // handle native inheritance
     //    if (ancestors.length)
-    cl.prototype = new cl();//new ancestors[0]();
+    //cl.prototype = new cl();//new ancestors[0]();
     cl.$constructor = $constructor;
-    cl.prototype.constructor = cl;
+    //cl.prototype.constructor = cl;
   
     // useful info
     cl["$ancestors"] = ancestors;

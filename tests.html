@@ -9,8 +9,8 @@
           $(function(){
             $namespace("soup", {
               Counter : $class({
-                $constructor : function($this) {
-                  $this.val = 5;
+                $constructor : function($this, x) {
+                  $this.val = x;
                 },
                 
                 $private_vars: {
@@ -73,7 +73,9 @@
               x : function(){return 1},
               y : 7
             });
-            say(y.$name);
+            
+            var c = new $soup.Counter(10);
+            console.log(c.val);
            });
         </script>
         <title>jSoup</title>
