@@ -14,6 +14,9 @@ var $namespace = function(name, members) {
   if (name && !(name in $_soup._ns)) {
     window['$' + name] = $_soup._ns[name] = ns = {};
   }
+  else if (name in $_soup._ns) {
+    ns = $_soup._ns[name];
+  }
   else if (!name) {
     name = $_soup._consts.DEFAULT_NS;
     ns = $_soup._ns[$_soup._consts.DEFAULT_NS];
@@ -27,6 +30,9 @@ var $namespace = function(name, members) {
       member = member['func'].call()
     member['$name'] = name;
     ns[name] = member;
+    // added: empty namespace makes definitions global
+    if (name == $_soup._consts.DEFAULT_NS)
+      window[name] = member;
   }
 }
 
