@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="js/jquery-1.4.4.js"></script>
+        <script type="text/javascript" src="js/jsoup.js"></script>
+        <script type="text/javascript">
+          $(function(){
+            $namespace("soup", {
+              Counter : $class({
+                $constructor : function($this) {
+                  $this.val = 5;
+                },
+                
+                $private_vars: {
+                  count: 0
+                },
+                inc: $priv(function($this) {
+                  $this._.count++;
+                }),
+                dec: $priv(function($this) {
+                  $this._.count--;
+                }),
+                state: $priv(function($this) {
+                  return $this._.count;
+                }),
+              }),
+              NewCounter : $class({
+                $extends: 'Counter',
+                                
+                my_method : function($this, x) {
+                  $this.val += x;
+                  return $this.val;
+                }
+              }),
+              SomeClass : $class({
+                bark : function($this) {
+                  return 'bark'
+                }
+              }),
+              AnotherCounter : $class({
+                $extends: ['NewCounter', 'SomeClass'],
+                
+                my_method : function($this, x) {
+                  $super(x);
+                  $this.val--;
+                  return $this.val;
+                },
+                
+                $private_vars: {
+                  x: 0
+                },
+                private_method : $private(function($this){
+                  say('private');
+                  $this._.x += 1;
+                }),
+                priveledged_method : $priv(function($this) {
+                  say('priv');
+                  $this._.private_method();
+                  $this.public_method();
+                  return $this._.x;
+                }),
+                public_method : function($this) {
+                  if ($this['_'])
+                    say('public' + $this._.x);
+                }
+              }),
+              public_var : 40,
+              public_func: function(x) { return "_" + x + "_"}
+            });
+            $namespace("", {
+              x : function(){return 1},
+              y : 7
+            });
+            say(y.$name);
+           });
+        </script>
+        <title>jSoup</title>
+    </head>
+    <body>
+
+    </body>
+</html>

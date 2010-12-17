@@ -22,6 +22,7 @@ var $namespace = function(name, members) {
     ns = $_soup._ns[$_soup._consts.DEFAULT_NS];
   }
   $_soup._currentNs = name;
+  var global_ns = $_soup._currentNs == $_soup._consts.DEFAULT_NS;
   
   for (var name in members)
   {
@@ -31,7 +32,7 @@ var $namespace = function(name, members) {
     member['$name'] = name;
     ns[name] = member;
     // added: empty namespace makes definitions global
-    if (name == $_soup._consts.DEFAULT_NS)
+    if (global_ns)
       window[name] = member;
   }
 }
