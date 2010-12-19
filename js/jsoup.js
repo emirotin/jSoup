@@ -10,6 +10,11 @@ $_soup._currentNs = $_soup._consts.DEFAULT_NS;
 
 
 var $namespace = function(name, members) {
+  if (arguments.length < 2) {
+    members = name;
+    name = "";
+  }
+  
   var ns = null;
   if (name && !(name in $_soup._ns)) {
     window['$' + name] = $_soup._ns[name] = ns = {};
