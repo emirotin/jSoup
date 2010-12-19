@@ -19,10 +19,10 @@ var $namespace = function(name, members) {
   }
   else if (!name) {
     name = $_soup._consts.DEFAULT_NS;
-    ns = $_soup._ns[$_soup._consts.DEFAULT_NS];
+    ns = $_soup._ns[name];
   }
   $_soup._currentNs = name;
-  var global_ns = $_soup._currentNs == $_soup._consts.DEFAULT_NS;
+  var global_ns = name == $_soup._consts.DEFAULT_NS;
   
   for (var name in members)
   {
