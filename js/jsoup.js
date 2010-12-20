@@ -16,16 +16,16 @@ var $namespace = function(name, members) {
   }
   
   var ns = null;
-  if (name && !(name in $_soup._ns)) {
+  if (!name)
+    name = $_soup._consts.DEFAULT_NS;
+
+  if (name in $_soup._ns) {
+    ns = $_soup._ns[name];
+  }
+  else {
     window['$' + name] = $_soup._ns[name] = ns = {};
   }
-  else if (name in $_soup._ns) {
-    ns = $_soup._ns[name];
-  }
-  else if (!name) {
-    name = $_soup._consts.DEFAULT_NS;
-    ns = $_soup._ns[name];
-  }
+
   $_soup._currentNs = name;
   var global_ns = name == $_soup._consts.DEFAULT_NS;
   
@@ -141,7 +141,9 @@ var $super = function() {
 }
 
 var $class = function(map, noNamespace) {
-  // have defered execution because have to wait while preceding declarations are processed
+  // inside namespace have defered execution because have to wait while preceding declarations are processed
+  // outside set noNamespace = true
+  // TODO: think of better way to detect it
   var class_inner = function()
   {
     // implicitly call ancestors' constructors

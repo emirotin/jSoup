@@ -51,7 +51,7 @@ QUnit.specify("jSoup", function(){
       assert(window.x).isSameAs(x);
       
       $namespace({y: 6});
-      assert(window.y).isDefined("fails now without name param");
+      assert(window.y).isDefined();
       assert(y).equals(6);
     });
     
