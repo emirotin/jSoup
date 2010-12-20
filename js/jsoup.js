@@ -140,7 +140,7 @@ var $super = function() {
   arguments.callee.caller.$super.$_wrapper.apply(null, Array.prototype.slice.call(arguments));
 }
 
-var $class = function(map) {
+var $class = function(map, noNamespace) {
   // have defered execution because have to wait while preceding declarations are processed
   var class_inner = function()
   {
@@ -239,5 +239,7 @@ var $class = function(map) {
     
     return cl;
   }
+  if (noNamespace)
+    return class_inner();
   return {'func': class_inner, '$_isDeferedClass': true}
 }
